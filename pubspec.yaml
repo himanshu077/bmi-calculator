@@ -58,6 +58,10 @@ flutter:
   # the material Icons class.
   uses-material-design: true
 
+  assets:
+    - assets/icon/
+    - assets/fonts/
+
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg
@@ -74,6 +78,54 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
+  fonts:
+    - family: Poppins-ExtraBold
+      fonts:
+        - asset: assets/fonts/Poppins/Poppins-ExtraBold.ttf
+
+    - family: Poppins-ExtraBoldItalic
+      fonts:
+        - asset: assets/fonts/Poppins/Poppins-ExtraBoldItalic.ttf
+
+    - family: Poppins-Bold
+      fonts:
+        - asset: assets/fonts/Poppins/Poppins-Bold.ttf
+
+    - family: Poppins-BoldItalic
+      fonts:
+        - asset: assets/fonts/Poppins/Poppins-BoldItalic.ttf
+
+    - family: Poppins-SemiBold
+      fonts:
+        - asset: assets/fonts/Poppins/Poppins-SemiBold.ttf
+
+    - family: Poppins-SemiBoldItalic
+      fonts:
+        - asset: assets/fonts/Poppins/Poppins-SemiBoldItalic.ttf
+
+    - family: Poppins-Medium
+      fonts:
+        - asset: assets/fonts/Poppins/Poppins-Medium.ttf
+
+    - family: Poppins-MediumItalic
+      fonts:
+        - asset: assets/fonts/Poppins/Poppins-MediumItalic.ttf
+
+    - family: Poppins-Regular
+      fonts:
+        - asset: assets/fonts/Poppins/Poppins-Regular.ttf
+
+    - family: Poppins-Italic
+      fonts:
+        - asset: assets/fonts/Poppins/Poppins-Italic.ttf
+
+    - family: Poppins-Light
+      fonts:
+        - asset: assets/fonts/Poppins/Poppins-Light.ttf
+
+    - family: Poppins-LightItalic
+      fonts:
+        - asset: assets/fonts/Poppins/Poppins-LightItalic.ttf
   # fonts:
   #   - family: Schyler
   #     fonts:
