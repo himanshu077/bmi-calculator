@@ -5,4 +5,5 @@ class AppIcons{
   static const String backButton = '${_iconPath}back.png';
   static const String male = '${_iconPath}male.png';
   static const String female = '${_iconPath}female.png';
+  static const String user = '${_iconPath}user.png';
 }

@@ -14,12 +14,16 @@ class Family{
 class TextStyles{
   //Regular
   static const TextStyle regular10Black = TextStyle(color: AppColors.black, fontSize: AppFonts.s11, fontFamily: Family.regular);
+  static const TextStyle regular12Black = TextStyle(color: AppColors.black, fontSize: AppFonts.s12, fontFamily: Family.regular);
+  static const TextStyle regular10White = TextStyle(color: AppColors.white, fontSize: AppFonts.s11, fontFamily: Family.regular);
   static const TextStyle regular14Black = TextStyle(color: AppColors.black, fontSize: AppFonts.s14, fontFamily: Family.regular);
+  static const TextStyle regular16Black = TextStyle(color: AppColors.black, fontSize: AppFonts.s16, fontFamily: Family.regular);
   static const TextStyle regularTextHint = TextStyle(color: AppColors.grey50, fontSize: AppFonts.s14, fontFamily: Family.regular);
 
   //medium
   static const TextStyle medium10Black = TextStyle(color: AppColors.black, fontSize: AppFonts.s10, fontFamily: Family.medium);
   static const TextStyle medium14White = TextStyle(color: AppColors.white, fontSize: AppFonts.s14, fontFamily: Family.medium);
+  static const TextStyle medium16TextHint = TextStyle(color: AppColors.grey50, fontSize: AppFonts.s16, fontFamily: Family.medium);
 
 
   //SemiBold

@@ -33,7 +33,7 @@ class AppButton extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              TextView(text: label ?? '',textStyle: TextStyles.medium14White,),
+              TextView(text: label ?? '',textStyle:  labelStyle ?? TextStyles.medium14White,),
               child ?? const SizedBox()
             ],
           ),
