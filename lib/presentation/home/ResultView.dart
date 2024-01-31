@@ -1,12 +1,12 @@
-import 'package:bmi_calculator/components/constant/AppColors.dart';
-import 'package:bmi_calculator/components/constant/AppFonts.dart';
-import 'package:bmi_calculator/components/constant/constants.dart';
-import 'package:bmi_calculator/components/coreComponents/TextView.dart';
+import 'package:bmi_calculator/utils/AppExtenstions.dart';
 import 'package:flutter/material.dart';
 import 'package:speedometer_chart/speedometer_chart.dart';
 
 import '../../components/appWidgets/AppBar2.dart';
+import '../../components/constant/AppColors.dart';
+import '../../components/constant/AppFonts.dart';
 import '../../components/constant/TextStyles.dart';
+import '../../components/coreComponents/TextView.dart';
 
 class ResultView extends StatefulWidget {
   const ResultView({super.key});
@@ -19,17 +19,20 @@ class _ResultViewState extends State<ResultView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.backgroundColor,
       body: SafeArea(
         child: Column(
           children: [
-            const AppBar2(
-              isLeadVisible: false,
+            AppBar2(
               title: 'BMI Calculator',
               titleStyle: TextStyles.semiBold16Black,
+              onLeadTap: context.pop,
             ),
             Expanded(child: SingleChildScrollView(
+              padding: EdgeInsets.all(AppFonts.s20),
               child: Column(
                 children: [
+                  const SizedBox(height: AppFonts.s40,),
                   _meterView(),
                   _detailView(),
                 ],
@@ -47,49 +50,55 @@ Widget _meterView(){
     minValue: 16,
     maxValue: 50,
     value: 24,
-    minTextValue: '',
-    maxTextValue: '',
+    // minTextValue: '',
+    // maxTextValue: '',
     graphColor: [Colors.red, Colors.yellow, Colors.green],
     pointerColor: Colors.black,
-    valueVisible: true,
-    rangeVisible: true,
+    valueVisible: false,
+    rangeVisible: false,
   );
 }
 
 Widget _detailView(){
   return Container(
-    padding: EdgeInsets.all(AppFonts.s20),
+    margin: EdgeInsets.only(top: AppFonts.s40),
+    padding: EdgeInsets.symmetric(vertical: AppFonts.s20),
     decoration: BoxDecoration(
-      color: AppColors.white
+      color: AppColors.white,
+      borderRadius: BorderRadius.circular(AppFonts.s10)
     ),
     child: Column(
       children: [
-        TextView(text: 'Guest'),
+        const TextView(text: 'Guest', textStyle: TextStyles.semiBold16Black,margin: EdgeInsets.only(bottom: AppFonts.s16),),
 
 
-        Row(
+        const Row(
           children: [
-            Expanded(child: Column(children: [
-              TextView(text: 'Your BMI is...'),
+           Expanded(child: Column(children: [
+              TextView(text: 'Your BMI is...', textStyle: TextStyles.medium14Black,),
 
-              TextView(text: '22.7'),
+              TextView(text: '22.7', textStyle: TextStyles.bold30Black,),
             ],)),
             Expanded(child: Column(children: [
-              TextView(text: 'Status'),
-
-              TextView(text: 'Normal'),
+              TextView(text: 'Status', textStyle: TextStyles.medium14Black,),
+              TextView(text: 'Normal', textStyle: TextStyles.semiBold16P_Green),
             ],))
           ],
         ),
-        Divider(),
-        Row(
-          children: [
-            _measureValueView(value: 'Gender'),
-            _measureValueView(value: 'Age'),
-            _measureValueView(value: 'Weight'),
-            _measureValueView(value: 'Height'),
+        const Divider(),
+        IntrinsicHeight(
+          child: Row(
+            children: [
+              _measureValueView(value: 'Gender'),
+              const VerticalDivider(),
+              _measureValueView(value: 'Age'),
+              const VerticalDivider(),
+              _measureValueView(value: 'Weight'),
+              const VerticalDivider(),
+              _measureValueView(value: 'Height'),
 
-          ],
+            ],
+          ),
         )
 
       ],
@@ -98,5 +107,5 @@ Widget _detailView(){
 }
 
 Widget _measureValueView({required String value}){
-  return Expanded(child: TextView(text: value, textAlign: TextAlign.center,));
+  return Expanded(child: TextView(text: value, textAlign: TextAlign.center, textStyle: TextStyles.regular14Black));
 }

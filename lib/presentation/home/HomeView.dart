@@ -2,6 +2,9 @@ import 'package:bmi_calculator/components/appWidgets/AppBar2.dart';
 import 'package:bmi_calculator/components/constant/AppColors.dart';
 import 'package:bmi_calculator/components/constant/AppFonts.dart';
 import 'package:bmi_calculator/components/constant/TextStyles.dart';
+import 'package:bmi_calculator/components/coreComponents/TextView.dart';
+import 'package:bmi_calculator/presentation/auth/LoginView.dart';
+import 'package:bmi_calculator/utils/AppExtenstions.dart';
 import 'package:flutter/material.dart';
 
 import 'MeasurementsView.dart';
@@ -17,14 +20,19 @@ class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.white.withAlpha(248),
+      backgroundColor: AppColors.backgroundColor,
       body: SafeArea(
         child: Column(
           children: [
-            const AppBar2(
+             AppBar2(
               isLeadVisible: false,
               title: 'BMI Calculator',
               titleStyle: TextStyles.semiBold16Black,
+              tail: TextView(
+                onTap: (){
+                  context.pushAndClearNavigator(const LoginView());
+                },
+                text: 'Logout', textStyle: TextStyles.semiBold16P_Green,),
             ),
             Expanded(child: Padding(
               padding: const EdgeInsets.all(AppFonts.s10),
