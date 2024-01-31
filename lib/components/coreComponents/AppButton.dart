@@ -21,25 +21,28 @@ class AppButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Container(
-          padding: padding ?? const EdgeInsets.symmetric(horizontal: AppFonts.s20, vertical: AppFonts.s20),
-          width: fillWidth ? double.maxFinite : null,
-          decoration: BoxDecoration(
-            color: buttonColor ?? AppColors.primaryGreen,
-            borderRadius: BorderRadius.circular(radius ??AppFonts.s10)
+    return Padding(
+      padding: margin ?? EdgeInsets.zero,
+      child: Stack(
+        children: [
+          Container(
+            padding: padding ?? const EdgeInsets.symmetric(horizontal: AppFonts.s20, vertical: AppFonts.s20),
+            width: fillWidth ? double.maxFinite : null,
+            decoration: BoxDecoration(
+              color: buttonColor ?? AppColors.primaryGreen,
+              borderRadius: BorderRadius.circular(radius ??AppFonts.s10)
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                TextView(text: label ?? '',textStyle:  labelStyle ?? TextStyles.medium14White,),
+                child ?? const SizedBox()
+              ],
+            ),
           ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              TextView(text: label ?? '',textStyle:  labelStyle ?? TextStyles.medium14White,),
-              child ?? const SizedBox()
-            ],
-          ),
-        ),
-        Positioned.fill(child: TapWidget(onTap: onTap,))
-      ],
+          Positioned.fill(child: TapWidget(onTap: onTap,))
+        ],
+      ),
     );
   }
 }

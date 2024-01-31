@@ -29,6 +29,7 @@ class AppBar2 extends StatelessWidget {
               onTap: onLeadTap,
                 url: leadIcon ?? AppIcons.backButton,
               size: leadIconSize ?? AppFonts.s20,
+              margin: EdgeInsets.only(right: AppFonts.s10),
             ),
           ),
           Expanded(child: TextView(text: title ?? '', textStyle: titleStyle,)),

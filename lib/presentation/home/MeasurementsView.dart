@@ -1,3 +1,6 @@
+import 'package:bmi_calculator/components/coreComponents/TapWidget.dart';
+import 'package:bmi_calculator/presentation/home/HistoryView.dart';
+import 'package:bmi_calculator/presentation/home/ProfileView.dart';
 import 'package:bmi_calculator/presentation/home/ResultView.dart';
 import 'package:bmi_calculator/utils/AppExtenstions.dart';
 import 'package:flutter/cupertino.dart';
@@ -26,44 +29,52 @@ class _MeasurementsViewState extends State<MeasurementsView> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        UserView(),
-        Obx(
-          () => _GenderButton(
-            value: measCtrl.gender,
-            onTap: measCtrl.onSelectGender,
-          ),
-        ),
-        Row(
-          children: [
-            Expanded(
-                child: Obx(
-              () => _HeightView(
-                onTap: measCtrl.onSelectHeightType,
-                measureType: measCtrl.heightType,
-              ),
-            )),
-            SizedBox(
-              width: AppFonts.s10,
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          UserView(),
+          Obx(
+            () => _GenderButton(
+              value: measCtrl.gender,
+              onTap: measCtrl.onSelectGender,
             ),
-            Expanded(
-                child: Obx(
-              () => _WeightView(
-                onTap: measCtrl.onSelectWeightType,
-                measureType: measCtrl.weightType,
+          ),
+          Row(
+            children: [
+              Expanded(
+                  child: Obx(
+                () => _HeightView(
+                  onTap: measCtrl.onSelectHeightType,
+                  measureType: measCtrl.heightType,
+                ),
+              )),
+              SizedBox(
+                width: AppFonts.s10,
               ),
-            ))
-          ],
-        ),
-        _AgeView(),
+              Expanded(
+                  child: Obx(
+                () => _WeightView(
+                  onTap: measCtrl.onSelectWeightType,
+                  measureType: measCtrl.weightType,
+                ),
+              ))
+            ],
+          ),
+          _AgeView(),
 
-        AppButton(
-          label: 'Calculate',
-          radius: AppFonts.s30,
-          onTap: () => context.pushNavigator(const ResultView()),
-        )
-      ],
+          AppButton(
+            label: 'Calculate',
+            radius: AppFonts.s30,
+            onTap: () => context.pushNavigator(const ResultView()),
+          ),
+          AppButton(
+            label: 'History',
+            radius: AppFonts.s30,
+            margin: const EdgeInsets.only(top: AppFonts.s20),
+            onTap: () => context.pushNavigator(const HistoryView()),
+          )
+        ],
+      ),
     );
   }
 }
@@ -73,19 +84,26 @@ class UserView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(AppFonts.s16),
-      margin: EdgeInsets.only(top: AppFonts.s10, bottom: AppFonts.s30),
-      decoration: BoxDecoration(
-        color: AppColors.white,
-        borderRadius: BorderRadius.circular(AppFonts.s16)
-      ),
-      child: Row(
-        children: [
-          ImageView(url: AppIcons.user, size: AppFonts.s30,margin: EdgeInsets.only(right: AppFonts.s10),),
-          Expanded(child: TextView(text: 'Guest', textStyle: TextStyles.medium16TextHint,))
-        ],
-      ),
+    return Stack(
+      children: [
+        Container(
+          padding: EdgeInsets.all(AppFonts.s16),
+          margin: EdgeInsets.only(top: AppFonts.s10, bottom: AppFonts.s30),
+          decoration: BoxDecoration(
+            color: AppColors.white,
+            borderRadius: BorderRadius.circular(AppFonts.s16)
+          ),
+          child: Row(
+            children: [
+              ImageView(url: AppIcons.user, size: AppFonts.s30,margin: EdgeInsets.only(right: AppFonts.s10),),
+              Expanded(child: TextView(text: 'Guest', textStyle: TextStyles.medium16TextHint,))
+            ],
+          ),
+        ),
+        Positioned.fill(child: TapWidget(
+          onTap: ()=> context.pushNavigator(const ProfileView()),
+        ))
+      ],
     );
   }
 }
