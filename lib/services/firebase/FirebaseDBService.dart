@@ -18,6 +18,10 @@ abstract class FirebaseDB {
     await collection.doc(documentId).update(data);
   }
 
+  Future<DocumentSnapshot<Object?>> getDoc(String documentId) async {
+   return await collection.doc(documentId).get();
+  }
+
 
   Future<QuerySnapshot> checkIfDocExist( String key,var data,) async {
     return await collection.where(key, isEqualTo: data).limit(1).get();

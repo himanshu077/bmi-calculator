@@ -1,5 +1,6 @@
 import 'package:bmi_calculator/presentation/Launcher/SplashView.dart';
 import 'package:bmi_calculator/services/firebase/FirebaseService.dart';
+import 'package:bmi_calculator/services/localData/SharedPref.dart';
 import 'package:flutter/material.dart';
 
 void main() async{
@@ -10,6 +11,7 @@ void main() async{
 Future<void> initConfig() async {
   WidgetsFlutterBinding.ensureInitialized();
   await FirebaseService.init();
+  await SharedPref.config();
   return;
 }
 

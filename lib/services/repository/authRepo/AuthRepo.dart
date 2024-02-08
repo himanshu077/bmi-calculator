@@ -1,5 +1,7 @@
 abstract class AuthRepo{
   Future<Object> login({required String email, required String password});
-  Future<Object> updateProfile();
-  Future<Object> logout();
+  Future<Object> updateProfile({required String name});
+  // Future<Object> getProfile();
+  Future<Object?> getProfile();
+  void logout();
 }
