@@ -13,9 +13,10 @@ class EditText extends StatefulWidget {
   final Color? filledColor;
   final bool isFilled;
   final String? hint;
+  final String? error;
   final TextStyle? hintStyle;
   final TextStyle? textStyle;
-  const EditText({super.key, required this.controller, this.readOnly, this.padding, this.margin, this.radius, this.borderColor, this.filledColor, this.isFilled = true, this.hint, this.hintStyle, this.textStyle});
+  const EditText({super.key, required this.controller, this.readOnly, this.padding, this.margin, this.radius, this.borderColor, this.filledColor, this.isFilled = true, this.hint, this.hintStyle, this.textStyle, this.error});
 
   @override
   State<EditText> createState() => _EditTextState();
@@ -38,6 +39,9 @@ class _EditTextState extends State<EditText> {
           enabledBorder: borderStyle,
           border: borderStyle,
           focusedBorder: borderStyle,
+            errorText: widget.error != null && widget.error!.trim().isEmpty
+                ? null
+                : widget.error
         ),
         readOnly: widget.readOnly ?? false,
         controller: widget.controller,
