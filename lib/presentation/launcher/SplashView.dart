@@ -1,9 +1,11 @@
 import 'package:bmi_calculator/presentation/auth/LoginView.dart';
+import 'package:bmi_calculator/services/localData/SharedPref.dart';
 import 'package:bmi_calculator/utils/AppExtenstions.dart';
 import 'package:flutter/material.dart';
 
 import '../../components/constant/TextStyles.dart';
 import '../../components/coreComponents/TextView.dart';
+import '../home/HomeView.dart';
 
 class SplashView extends StatefulWidget {
   const SplashView({super.key});
@@ -22,8 +24,12 @@ class _SplashViewState extends State<SplashView> {
   }
 
   void onCreate(){
-    Future.delayed(const Duration(seconds: 3),(){
-      context.pushNavigator(const LoginView());
+    Future.delayed(const Duration(seconds: 3),() async{
+      if(await SharedPref.getUid()  != null){
+        context.replaceNavigator(const HomeView());
+      }else{
+        context.replaceNavigator(const LoginView());
+      };
     });
   }
   @override
