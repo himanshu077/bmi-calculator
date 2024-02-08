@@ -1,8 +1,16 @@
 import 'package:bmi_calculator/presentation/Launcher/SplashView.dart';
+import 'package:bmi_calculator/services/firebase/FirebaseService.dart';
 import 'package:flutter/material.dart';
 
-void main() {
+void main() async{
+  await initConfig();
   runApp(const MyApp());
+}
+
+Future<void> initConfig() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await FirebaseService.init();
+  return;
 }
 
 class MyApp extends StatelessWidget {
