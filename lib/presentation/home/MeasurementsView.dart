@@ -1,5 +1,6 @@
 import 'package:bmi_calculator/components/coreComponents/TapWidget.dart';
 import 'package:bmi_calculator/presentation/home/HistoryView.dart';
+import 'package:bmi_calculator/presentation/home/ProfileCtrl.dart';
 import 'package:bmi_calculator/presentation/home/ProfileView.dart';
 import 'package:bmi_calculator/presentation/home/ResultView.dart';
 import 'package:bmi_calculator/utils/AppExtenstions.dart';
@@ -26,6 +27,7 @@ class MeasurementsView extends StatefulWidget {
 
 class _MeasurementsViewState extends State<MeasurementsView> {
   final measCtrl = Get.put(MeasurementCtrl());
+
 
   @override
   Widget build(BuildContext context) {
@@ -79,6 +81,7 @@ class _MeasurementsViewState extends State<MeasurementsView> {
   }
 }
 
+
 class UserView extends StatelessWidget {
   const UserView({super.key});
 
@@ -96,7 +99,11 @@ class UserView extends StatelessWidget {
           child: Row(
             children: [
               ImageView(url: AppIcons.user, size: AppFonts.s30,margin: EdgeInsets.only(right: AppFonts.s10),),
-              Expanded(child: TextView(text: 'Guest', textStyle: TextStyles.medium16TextHint,))
+              Expanded(child:
+              Obx(
+                ()=> TextView(text: profCtrl.name.isNotEmpty ? profCtrl.name : profCtrl.email,
+                  textStyle: TextStyles.medium16TextHint,),
+              ))
             ],
           ),
         ),
