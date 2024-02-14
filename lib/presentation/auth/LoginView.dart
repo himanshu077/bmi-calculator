@@ -44,6 +44,7 @@ class _LoginViewState extends State<LoginView> with ViewStateMixin {
                 error: loginController.emailEr,
               ),
             ),
+
             Obx(
                   ()=> EditText(
                 hint: 'Enter your password',

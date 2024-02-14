@@ -1,6 +1,7 @@
+import 'package:bmi_calculator/components/appWidgets/dialog/FailureMessageDialog.dart';
 import 'package:bmi_calculator/components/coreComponents/TapWidget.dart';
+import 'package:bmi_calculator/presentation/auth/LoginCtrl.dart';
 import 'package:bmi_calculator/presentation/home/HistoryView.dart';
-import 'package:bmi_calculator/presentation/home/ProfileCtrl.dart';
 import 'package:bmi_calculator/presentation/home/ProfileView.dart';
 import 'package:bmi_calculator/presentation/home/ResultView.dart';
 import 'package:bmi_calculator/utils/AppExtenstions.dart';
@@ -25,16 +26,19 @@ class MeasurementsView extends StatefulWidget {
   State<MeasurementsView> createState() => _MeasurementsViewState();
 }
 
-class _MeasurementsViewState extends State<MeasurementsView> {
-  final measCtrl = Get.put(MeasurementCtrl());
+final weight1 = GlobalKey();
+final weight2 = GlobalKey();
 
+class _MeasurementsViewState extends State<MeasurementsView>
+    with ViewStateMixin {
+  final measCtrl = Get.put(MeasurementCtrl());
 
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
         children: [
-          UserView(),
+          const UserView(),
           Obx(
             () => _GenderButton(
               value: measCtrl.gender,
@@ -48,9 +52,15 @@ class _MeasurementsViewState extends State<MeasurementsView> {
                 () => _HeightView(
                   onTap: measCtrl.onSelectHeightType,
                   measureType: measCtrl.heightType,
+                  cm: measCtrl.heightCm,
+                  feet: measCtrl.heightFeet,
+                  inch: measCtrl.heightInch,
+                  onSelectCm: measCtrl.onSelectHeightCmValue,
+                  onSelectFeet: measCtrl.onSelectHeightFeetValue,
+                  onSelectInch: measCtrl.onSelectHeightInchValue,
                 ),
               )),
-              SizedBox(
+              const SizedBox(
                 width: AppFonts.s10,
               ),
               Expanded(
@@ -58,16 +68,34 @@ class _MeasurementsViewState extends State<MeasurementsView> {
                 () => _WeightView(
                   onTap: measCtrl.onSelectWeightType,
                   measureType: measCtrl.weightType,
+                  kg: measCtrl.weightKg,
+                  lbs: measCtrl.weightLbs,
+                  onSelectKg: measCtrl.onSelectWeightKgValue,
+                  onSelectLbs: measCtrl.onSelectWeightLbsValue,
+                  key: measCtrl.weightType == WeightEnum.kg ? weight1 : weight2,
                 ),
               ))
             ],
           ),
-          _AgeView(),
-
+          Obx(
+            () => _AgeView(
+              onSelect: measCtrl.onSelectAge,
+              value: measCtrl.age,
+            ),
+          ),
           AppButton(
             label: 'Calculate',
             radius: AppFonts.s30,
-            onTap: () => context.pushNavigator(const ResultView()),
+            onTap: () {
+              load();
+              measCtrl.onCalculate().then((value) {
+                stopLoad();
+                context.pushNavigator(const ResultView());
+              }).catchError((error) {
+                stopLoad();
+                onError(error.toString());
+              });
+            },
           ),
           AppButton(
             label: 'History',
@@ -79,8 +107,26 @@ class _MeasurementsViewState extends State<MeasurementsView> {
       ),
     );
   }
-}
 
+  @override
+  void load() {
+    context.load;
+  }
+
+  @override
+  void onError(String error) {
+    context.openDialog(FailureMessageDailog(
+      message: error,
+      onTap: stopLoad,
+      dismiss: stopLoad,
+    ));
+  }
+
+  @override
+  void stopLoad() {
+    context.stopLoader;
+  }
+}
 
 class UserView extends StatelessWidget {
   const UserView({super.key});
@@ -90,31 +136,37 @@ class UserView extends StatelessWidget {
     return Stack(
       children: [
         Container(
-          padding: EdgeInsets.all(AppFonts.s16),
-          margin: EdgeInsets.only(top: AppFonts.s10, bottom: AppFonts.s30),
+          padding: const EdgeInsets.all(AppFonts.s16),
+          margin: const EdgeInsets.only(top: AppFonts.s10, bottom: AppFonts.s30),
           decoration: BoxDecoration(
-            color: AppColors.white,
-            borderRadius: BorderRadius.circular(AppFonts.s16)
-          ),
+              color: AppColors.white,
+              borderRadius: BorderRadius.circular(AppFonts.s16)),
           child: Row(
             children: [
-              ImageView(url: AppIcons.user, size: AppFonts.s30,margin: EdgeInsets.only(right: AppFonts.s10),),
-              Expanded(child:
-              Obx(
-                ()=> TextView(text: profCtrl.name.isNotEmpty ? profCtrl.name : profCtrl.email,
-                  textStyle: TextStyles.medium16TextHint,),
+              const ImageView(
+                url: AppIcons.user,
+                size: AppFonts.s30,
+                margin: EdgeInsets.only(right: AppFonts.s10),
+              ),
+              Expanded(
+                  child: Obx(
+                () => TextView(
+                  text:
+                      profCtrl.name.isNotEmpty ? profCtrl.name : profCtrl.email,
+                  textStyle: TextStyles.medium16TextHint,
+                ),
               ))
             ],
           ),
         ),
-        Positioned.fill(child: TapWidget(
-          onTap: ()=> context.pushNavigator(const ProfileView()),
+        Positioned.fill(
+            child: TapWidget(
+          onTap: () => context.pushNavigator(const ProfileView()),
         ))
       ],
     );
   }
 }
-
 
 class _GenderButton extends StatelessWidget {
   final GenderEnum value;
@@ -181,10 +233,24 @@ class _GenderButton extends StatelessWidget {
 
 class _HeightView extends StatelessWidget {
   final HeightEnum measureType;
+  final int cm;
+  final int feet;
+  final int inch;
   final Function(HeightEnum) onTap;
+  final Function(int) onSelectCm;
+  final Function(int) onSelectFeet;
+  final Function(int) onSelectInch;
 
   const _HeightView(
-      {super.key, required this.measureType, required this.onTap});
+      {super.key,
+      required this.measureType,
+      required this.onTap,
+      required this.cm,
+      required this.feet,
+      required this.inch,
+      required this.onSelectCm,
+      required this.onSelectFeet,
+      required this.onSelectInch});
 
   @override
   Widget build(BuildContext context) {
@@ -219,22 +285,36 @@ class _HeightView extends StatelessWidget {
                               SizedBox(
                                 width: 45,
                                 child: _Wheel(
-                                    unit: "'",
-                                    list: Height.feet,
-                                    itemExtent: 30),
+                                  unit: "'",
+                                  list: Height.feet,
+                                  itemExtent: 30,
+                                  onSelect: onSelectFeet,
+                                  initialItemIndex: Height.feet
+                                      .indexWhere((element) => element == feet),
+                                ),
                               ),
                               SizedBox(
                                   width: 45,
                                   child: _Wheel(
-                                      unit: "''",
-                                      list: Height.inches,
-                                      itemExtent: 30))
+                                    unit: "''",
+                                    list: Height.inches,
+                                    itemExtent: 30,
+                                    onSelect: onSelectInch,
+                                    initialItemIndex: Height.inches.indexWhere(
+                                        (element) => element == inch),
+                                  ))
                             ],
                           )
                         : SizedBox(
                             width: 90,
                             child: _Wheel(
-                                unit: "cm", list: Height.cms, itemExtent: 30)),
+                              unit: "cm",
+                              list: Height.cms,
+                              itemExtent: 30,
+                              onSelect: onSelectCm,
+                              initialItemIndex: Height.cms
+                                  .indexWhere((element) => element == cm),
+                            )),
                   ),
                 ),
               ),
@@ -266,9 +346,19 @@ class _HeightView extends StatelessWidget {
 class _WeightView extends StatelessWidget {
   final WeightEnum measureType;
   final Function(WeightEnum) onTap;
+  final int lbs;
+  final int kg;
+  final Function(int) onSelectLbs;
+  final Function(int) onSelectKg;
 
   const _WeightView(
-      {super.key, required this.measureType, required this.onTap});
+      {super.key,
+      required this.measureType,
+      required this.onTap,
+      required this.lbs,
+      required this.kg,
+      required this.onSelectLbs,
+      required this.onSelectKg});
 
   @override
   Widget build(BuildContext context) {
@@ -296,14 +386,22 @@ class _WeightView extends StatelessWidget {
                       color: AppColors.grey10,
                       borderRadius: BorderRadius.circular(AppFonts.s10)),
                   child: SizedBox(
-                    child: measureType == WeightEnum.kg ?_Wheel(
-                        unit: "kg",
-                        list: Weight.kg,
-                        itemExtent: 30) : _Wheel(
-                        unit: "lbs",
-                        list: Weight.lbs,
-                        itemExtent: 30)
-                  ),
+                      child: measureType == WeightEnum.kg
+                          ? _Wheel(
+                              unit: "kg",
+                              list: Weight.kg,
+                              itemExtent: 30,
+                              onSelect: onSelectKg,
+                              initialItemIndex: Weight.kg.indexWhere(
+                                (element) => element == kg,
+                              ))
+                          : _Wheel(
+                              unit: "lbs",
+                              list: Weight.lbs,
+                              itemExtent: 30,
+                              onSelect: onSelectLbs,
+                              initialItemIndex: Weight.lbs
+                                  .indexWhere((element) => element == lbs))),
                 ),
               ),
               SizedBox(
@@ -312,13 +410,13 @@ class _WeightView extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     _buttonType('kg', measureType == WeightEnum.kg,
-                            () => onTap(WeightEnum.kg),
+                        () => onTap(WeightEnum.kg),
                         fillWidth: true),
                     const SizedBox(
                       height: AppFonts.s10,
                     ),
                     _buttonType('lbs', measureType == WeightEnum.lbs,
-                            () => onTap(WeightEnum.lbs),
+                        () => onTap(WeightEnum.lbs),
                         fillWidth: true),
                   ],
                 ),
@@ -332,9 +430,14 @@ class _WeightView extends StatelessWidget {
 }
 
 class _AgeView extends StatelessWidget {
+  final Function(int) onSelect;
+  final int value;
 
-  const _AgeView(
-      {super.key,});
+  const _AgeView({
+    super.key,
+    required this.onSelect,
+    required this.value,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -354,18 +457,22 @@ class _AgeView extends StatelessWidget {
             children: [
               Expanded(
                 child: Container(
-                  margin: const EdgeInsets.only(
-                      top: AppFonts.s20),
+                  margin: const EdgeInsets.only(top: AppFonts.s20),
                   height: 50,
                   clipBehavior: Clip.hardEdge,
                   decoration: BoxDecoration(
                       color: AppColors.grey10,
                       borderRadius: BorderRadius.circular(AppFonts.s10)),
                   child: _Wheel(
-                      unit: "",
-                      list: Age.age,
-                      itemExtent: 70,
+                    unit: "",
+                    list: Age.age.reversed.toList(),
+                    // reversed due to horizontal list
+                    itemExtent: 70,
                     isHorizontal: true,
+                    onSelect: onSelect,
+                    initialItemIndex: Age.age.reversed
+                        .toList()
+                        .indexWhere((element) => element == value),
                   ),
                 ),
               ),
@@ -396,17 +503,22 @@ Widget _buttonType(String label, bool status, Function() onTap,
 }
 
 class _Wheel extends StatelessWidget {
+  final int initialItemIndex;
   final bool isHorizontal;
   final String unit;
   final List list;
   final double itemExtent;
+  final Function(int) onSelect;
 
-  const _Wheel(
-      {super.key,
-      this.isHorizontal = false,
-      required this.unit,
-      required this.list,
-      required this.itemExtent});
+  const _Wheel({
+    super.key,
+    this.isHorizontal = false,
+    required this.unit,
+    required this.list,
+    required this.itemExtent,
+    required this.onSelect,
+    required this.initialItemIndex,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -417,31 +529,16 @@ class _Wheel extends StatelessWidget {
         looping: true,
         diameterRatio: 100,
         squeeze: 1,
-        selectionOverlay: const CupertinoPickerDefaultSelectionOverlay(background: Colors.transparent,),
-        onSelectedItemChanged: (int index) {
-          // if (_formKey.currentState!.validate()) {
-          const Text(
-            "Please select Weight",
-            style: TextStyle(
-              color: Colors.red,
-              fontSize: 16,
-            ),
-          );
-          // }
-          // setState(
-          //       () {
-          //     if (_selectedUnits == 'Kgs') {
-          //       _selectedWeight = kgs[index];
-          //     } else {
-          //       _selectedWeight = lbs[index];
-          //     }
-          //   },
-          // );
-        },
+        scrollController: FixedExtentScrollController(
+            initialItem: initialItemIndex > -1 ? initialItemIndex : 0),
+        selectionOverlay: const CupertinoPickerDefaultSelectionOverlay(
+          background: Colors.transparent,
+        ),
+        onSelectedItemChanged: (int index) => onSelect(list[index]),
         children: List<Widget>.generate(
           list.length,
           (int index) {
-            final value = '${isHorizontal ? list.reversed.toList()[index] : list[index]} $unit'.trim();
+            final value = '${list[index]} $unit'.trim();
             return Center(
               child: RotatedBox(
                 quarterTurns: isHorizontal ? 3 : 0,
