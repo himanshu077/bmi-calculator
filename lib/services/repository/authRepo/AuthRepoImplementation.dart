@@ -5,7 +5,7 @@ import 'package:bmi_calculator/services/localData/SharedPref.dart';
 import 'AuthRepo.dart';
 
 class AuthRepoImplementation extends AuthRepo {
-  final userCollection = FirebaseDBService('user', 'user');
+  final _userCollection = FirebaseDBService('user', 'user');
 
   @override
   void logout() {
@@ -16,7 +16,7 @@ class AuthRepoImplementation extends AuthRepo {
   @override
   Future<bool> updateProfile({required String name}) async{
     try{
-      await userCollection.update(AppData.uid!, {
+      await _userCollection.update(AppData.uid!, {
         'name': name
       });
       return true;
@@ -29,10 +29,11 @@ class AuthRepoImplementation extends AuthRepo {
   Future<String> login(
       {required String email, required String password}) async {
     try {
-      final checkDoc = await userCollection.checkIfDocExist('email', email);
+      final checkDoc = await _userCollection.checkIfDocExist('email', email);
 
       if (checkDoc.size > 0) {
         final snap = checkDoc.docs[0];
+
         final data = snap.data() as Map<String, dynamic>;
         if (data['password'] == password) {
           SharedPref.setUid(snap.id);
@@ -42,7 +43,7 @@ class AuthRepoImplementation extends AuthRepo {
         }
       } else {
         final snap =
-            await userCollection.add({'email': email, 'password': password});
+            await _userCollection.add({'email': email, 'password': password});
         return snap.id;
       }
     } catch (e) {
@@ -53,7 +54,7 @@ class AuthRepoImplementation extends AuthRepo {
   @override
   Future<Map<String,dynamic>> getProfile() async {
     try {
-      final doc = await userCollection.getDoc(AppData.uid!);
+      final doc = await _userCollection.getDoc(AppData.uid!);
       if (doc.exists && doc.data() != null) {
         final data = doc.data() as Map<String,dynamic>;
         return data;
