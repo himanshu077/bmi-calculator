@@ -17,8 +17,6 @@ class LoginCtrl extends GetxController {
   String get emailEr => _emailEr.value;
   String get passwordEr => _passwordEr.value;
 
-
-
   Future<bool>onLogin() async{
     bool status = false;
     _clearEr();

@@ -14,6 +14,11 @@ abstract class FirebaseDB {
     return await collection.add(data);
   }
 
+  Future<String> setDoc(String id, Map<String, dynamic> data) async {
+    await collection.doc(id).set(data);
+    return id;
+  }
+
   Future<void> update(String documentId, Map<String, dynamic> data) async {
     await collection.doc(documentId).update(data);
   }
@@ -35,8 +40,18 @@ abstract class FirebaseDB {
 
   Stream<List<Map<String, dynamic>>> get documents {
     return collection.snapshots().map((snapshot) => snapshot.docs
-        .map((doc) => {'id': doc.id, ...doc.data() as Map<String, dynamic>})
+        .map((doc) => {'docId': doc.id, ...doc.data() as Map<String, dynamic>})
         .toList());
+  }
+
+  Future<QuerySnapshot<Object?>> documentsWithOrderWhere({
+    required String compareField,required compareValue,
+    required String sortField, bool descending = false
+  }) {
+    return collection
+        .where(compareField,isEqualTo: compareValue)
+        // .orderBy(sortField,descending: descending)
+        .get();
   }
 }
 

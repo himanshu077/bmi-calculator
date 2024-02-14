@@ -24,6 +24,8 @@ class _SplashViewState extends State<SplashView> {
   }
 
   void onCreate(){
+
+    // check whether user logged in ....
     Future.delayed(const Duration(seconds: 3),() async{
       if(await SharedPref.getUid()  != null){
         context.replaceNavigator(const HomeView());
@@ -31,6 +33,7 @@ class _SplashViewState extends State<SplashView> {
         context.replaceNavigator(const LoginView());
       };
     });
+
   }
   @override
   Widget build(BuildContext context) {
