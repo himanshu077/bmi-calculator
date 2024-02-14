@@ -8,6 +8,7 @@ void main() async{
   runApp(const MyApp());
 }
 
+// init app configuration ....
 Future<void> initConfig() async {
   WidgetsFlutterBinding.ensureInitialized();
   await FirebaseService.init();

@@ -6,6 +6,7 @@ import 'package:bmi_calculator/components/constant/TextStyles.dart';
 import 'package:bmi_calculator/components/coreComponents/TextView.dart';
 import 'package:bmi_calculator/presentation/auth/LoginCtrl.dart';
 import 'package:bmi_calculator/presentation/auth/LoginView.dart';
+import 'package:bmi_calculator/presentation/home/MeasurementCtrl.dart';
 import 'package:bmi_calculator/presentation/home/ProfileCtrl.dart';
 import 'package:bmi_calculator/utils/AppExtenstions.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +23,8 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> with ViewStateMixin{
   final profileCtrl = Get.put(ProfileCtrl());
+  final measureCtrl = Get.put(MeasurementCtrl());
+  bool initFinish = false;
   @override
   void initState() {
     // TODO: implement initState
@@ -31,16 +34,20 @@ class _HomeViewState extends State<HomeView> with ViewStateMixin{
     });
   }
 
+  // get user profile, history records....
   void onCreate() async{
     load();
-    await profileCtrl.getProfile().then((value) {
+    try{
+      await profileCtrl.getProfile();
+      await measureCtrl.getHistoryList(isInit: true);
       stopLoad();
-    }).catchError((error){
+      setState(() {
+        initFinish = true;
+      });
+    }catch(error){
       stopLoad();
-      onError(error);
-    });
-
-
+      onError(error.toString());
+    }
   }
   @override
   Widget build(BuildContext context) {
@@ -60,9 +67,11 @@ class _HomeViewState extends State<HomeView> with ViewStateMixin{
                 },
                 text: 'Logout', textStyle: TextStyles.semiBold16P_Green,),
             ),
-            Expanded(child: Padding(
-              padding: const EdgeInsets.all(AppFonts.s10),
-              child: MeasurementsView(),
+            Expanded(child: SizedBox(
+              child:  initFinish? const Padding(
+                padding: EdgeInsets.all(AppFonts.s10),
+                child: MeasurementsView(),
+              ) : null,
             )),
           ],
         ),
