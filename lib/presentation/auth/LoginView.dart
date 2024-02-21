@@ -50,7 +50,8 @@ class _LoginViewState extends State<LoginView> with ViewStateMixin {
                 hint: 'Enter your password',
                 controller: loginController.passCtrl,
                 error: loginController.passwordEr,
-                margin: const EdgeInsets.only(top: AppFonts.s16, bottom: AppFonts.s40),
+                margin: const EdgeInsets.only(top: AppFonts.s16, bottom: AppFonts.s40,),
+                    isPassword: true,
               ),
             ),
 
