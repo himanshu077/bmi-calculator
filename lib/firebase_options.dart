@@ -50,19 +50,21 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyB57OjRNcK5KP4OaHdwM3Vf8tCa-VCZ7XE',
-    appId: '1:219919410625:android:a9dd71678bd27f8bc57b40',
-    messagingSenderId: '219919410625',
-    projectId: 'gitproject-187fa',
-    storageBucket: 'gitproject-187fa.appspot.com',
+    apiKey: 'AIzaSyC2GY66Z7gbPz6J3UO3nzr2_6DOxvrVPkg',
+    appId: '1:668580703759:android:a6d672de7c77734cbd3d7a',
+    messagingSenderId: '668580703759',
+    projectId: 'my-chat-4ae65',
+    databaseURL: 'https://my-chat-4ae65.firebaseio.com',
+    storageBucket: 'my-chat-4ae65.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyCJd_AWBumKh6rWcoUTub0_1BSVqJHbR0g',
-    appId: '1:219919410625:ios:50c6888b751e8c08c57b40',
-    messagingSenderId: '219919410625',
-    projectId: 'gitproject-187fa',
-    storageBucket: 'gitproject-187fa.appspot.com',
+    apiKey: 'AIzaSyDzIAGptv6LR0z9gsSmfSguh4TIR_-OYn8',
+    appId: '1:668580703759:ios:40408c4e6918d650bd3d7a',
+    messagingSenderId: '668580703759',
+    projectId: 'my-chat-4ae65',
+    databaseURL: 'https://my-chat-4ae65.firebaseio.com',
+    storageBucket: 'my-chat-4ae65.appspot.com',
     iosBundleId: 'com.app.bmiCalculator',
   );
 }
