@@ -1,5 +1,6 @@
 
 import 'package:bmi_calculator/presentation/auth/LoginView.dart';
+import 'package:bmi_calculator/services/localData/AppData.dart';
 import 'package:bmi_calculator/utils/AppExtenstions.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -25,7 +26,7 @@ class LoginCtrl extends GetxController {
 
     if(email.isEmail && password.isPassword){
       try{
-        await _authRepo.login(
+         await _authRepo.login(
             email: email,
             password: password
         ).then((value) {

@@ -39,7 +39,7 @@ This Flutter BMI Calculator is a mobile application designed to help users track
     3. Download and add google-services.json to the android/app directory for Android, and GoogleService-Info.plist to the ios/Runner directory for iOS.
 * 		Run the app: flutter run
 
-You can download the apk from the [link](https://drive.google.com/file/d/1kJywgTqyWL2JWhG4RcyQi0sN4_XPGrkl/view?usp=sharing)
+You can download the apk from the [link](https://drive.google.com/file/d/1l0XO5rj_if0-M7QYy2nNc4Z_uxZFpMyt/view?usp=sharing)
 
 ## Screen shots
 <img src="Splash.png" width="240em" height="480em" > <img src="Login.png" width="240em" height="480em" > <img src="Profile.png" width="240em" height="480em"> <img src="Result.png" width="240em" height="480em"> <img src="History.png" width="240em" height="480em">

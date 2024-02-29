@@ -44,6 +44,7 @@ class AuthRepoImplementation extends AuthRepo {
       } else {
         final snap =
             await _userCollection.add({'email': email, 'password': password});
+        SharedPref.setUid(snap.id);
         return snap.id;
       }
     } catch (e) {

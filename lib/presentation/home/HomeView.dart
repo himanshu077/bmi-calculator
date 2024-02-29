@@ -27,7 +27,6 @@ class _HomeViewState extends State<HomeView> with ViewStateMixin{
   bool initFinish = false;
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       onCreate();
