@@ -42,7 +42,7 @@ This Flutter BMI Calculator is a mobile application designed to help users track
 You can download the apk from the [link](https://drive.google.com/file/d/1l0XO5rj_if0-M7QYy2nNc4Z_uxZFpMyt/view?usp=sharing)
 
 ## Screen shots
-<img src="Splash.png" width="240em" height="480em" > <img src="Login.png" width="240em" height="480em" > <img src="Profile.png" width="240em" height="480em"> <img src="Result.png" width="240em" height="480em"> <img src="History.png" width="240em" height="480em">
+<img src="Splash.png" width="240em" height="480em" > <img src="Login.png" width="240em" height="480em" > <img src="Profile.png" width="240em" height="480em"> <img src="Measurement.png" width="240em" height="480em"> <img src="Result.png" width="240em" height="480em"> <img src="History.png" width="240em" height="480em">
 
 
 
